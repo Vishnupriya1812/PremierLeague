@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premier League Analytics</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h1>⚽ Premier League Analytics</h1>
+    <nav>
+      <button class="tab-btn active" data-tab="standings">Standings</button>
+      <button class="tab-btn" data-tab="matches">Matches by Round</button>
+      <button class="tab-btn" data-tab="topEleven">Team of the Week</button>
+      <button class="tab-btn" data-tab="topPerformers">Top Performers</button>
+      <button class="tab-btn" data-tab="aiSummary">AI Match Summary</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="standings" class="tab-panel active">
+      <div class="controls">
+        <label>Season ID <input type="number" id="standingsSeasonId" value="76986"></label>
+        <button onclick="loadStandings()">Load</button>
+      </div>
+      <div id="standingsResult" class="result"></div>
+    </section>
+
+    <section id="matches" class="tab-panel">
+      <div class="controls">
+        <label>Round <input type="number" id="matchesRound" value="1" min="1"></label>
+        <button onclick="loadMatches()">Load</button>
+      </div>
+      <div id="matchesResult" class="result"></div>
+    </section>
+
+    <section id="topEleven" class="tab-panel">
+      <div class="controls">
+        <label>Round <input type="number" id="topElevenRound" value="1" min="1"></label>
+        <button onclick="loadTopEleven()">Load</button>
+      </div>
+      <div id="topElevenResult" class="result"></div>
+    </section>
+
+    <section id="topPerformers" class="tab-panel">
+      <div class="controls">
+        <label>Statistic
+          <select id="statColumn">
+            <option value="goals">Goals</option>
+            <option value="assists">Assists</option>
+            <option value="yellow_cards">Yellow Cards</option>
+            <option value="red_cards">Red Cards</option>
+            <option value="passes">Passes</option>
+            <option value="tackles">Tackles</option>
+            <option value="touches">Touches</option>
+            <option value="shots">Shots</option>
+            <option value="saves">Saves</option>
+            <option value="goals_prevented">Goals Prevented</option>
+            <option value="minutes_played">Minutes Played</option>
+          </select>
+        </label>
+        <button onclick="loadTopPerformers()">Load</button>
+      </div>
+      <div id="topPerformersResult" class="result"></div>
+    </section>
+
+    <section id="aiSummary" class="tab-panel">
+      <div class="controls">
+        <label>Match ID <input type="number" id="matchId" placeholder="e.g. 12345678"></label>
+        <button onclick="loadAiSummary()">Generate Summary</button>
+      </div>
+      <div id="aiSummaryResult" class="result"></div>
+    </section>
+  </main>
+
+  <footer>
+    <a href="/swagger-ui.html">Full API reference (Swagger)</a>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

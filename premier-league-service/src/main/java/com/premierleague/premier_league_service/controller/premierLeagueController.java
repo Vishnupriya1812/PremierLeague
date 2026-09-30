@@ -12,13 +12,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @Tag(name = "League Analytics", description = "Endpoints for standings and performance data")
 public class premierLeagueController
 {
+    // findTopPerformersByStat() interpolates this value directly into raw SQL
+    // (it's a column name, so it can't be a bind parameter) — must be whitelisted.
+    private static final Set<String> ALLOWED_STAT_COLUMNS = Set.of(
+            "goals", "assists", "yellow_cards", "red_cards", "passes",
+            "tackles", "touches", "shots", "saves", "goals_prevented", "minutes_played"
+    );
+
     private final LeagueStandingsRepository leagueStandingsRepository;
 
     public premierLeagueController(LeagueStandingsRepository leagueStandingsRepository) {
@@ -58,6 +68,10 @@ public class premierLeagueController
     @GetMapping("/api/premier-league/home/topPerformers")
     public ResponseEntity<List<TopPerformersDTO>> getTopPerformers(@RequestParam String column)
     {
+        if (!ALLOWED_STAT_COLUMNS.contains(column)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Unknown stat column '" + column + "'. Allowed: " + ALLOWED_STAT_COLUMNS);
+        }
         return ResponseEntity.ok(leagueStandingsRepository.findTopPerformersByStat(76986,column));
     }
 
