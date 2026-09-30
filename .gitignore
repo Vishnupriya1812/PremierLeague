@@ -1,0 +1,20 @@
+# Secrets — never commit real credentials
+.env
+
+# Maven
+target/
+*.class
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+
+# Claude Code session state
+.claude/
+
+# Logs
+*.log
